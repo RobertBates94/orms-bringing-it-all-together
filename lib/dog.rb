@@ -1,3 +1,5 @@
+require 'pry'
+
 class Dog
     attr_accessor :name, :breed
     attr_reader :id
@@ -44,20 +46,21 @@ class Dog
     end
 
     def self.create(name:, breed:)
-        dog = self.new(name, breed)
+        dog = Dog.new(name: name, breed: breed)
         dog.save
         dog
     end
 
     def self.new_from_db(row)
-        new_dog = self.new
+        binding.pry
+        new_dog = Dog.new(row)
         new_dog.id = row[0]
-        new_dog.name = row [1]
+        new_dog.name = row[1]
         new_dog.breed = row [2]
-        new_dog
+        new_dog        
     end
 
-    def self.find_by_id
+    def self.find_by_id(id:)
         sql = <<-SQL
         SELECT *
         FROM dogs
